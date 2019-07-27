@@ -12,7 +12,7 @@ public class Main2 {
             lotto();
         } catch (InputMismatchException e) {
             e.printStackTrace();
-            System.out.println("to ten wyjątek");
+            System.out.println("Niewłaściwe dane");
         }
     }
 
