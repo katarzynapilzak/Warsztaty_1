@@ -1,56 +1,56 @@
-package exam;
+package com.company;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class Main3 {
 
     public static void main(String[] args) {
-        int size = 10;
-        int interval = 100;
-
         try {
-            System.out.println(Arrays.toString(div(size, interval)));
-        } catch (NegativeArraySizeException e) {
+            zgaduj();
+        } catch (InputMismatchException e){
             e.printStackTrace();
-            System.out.println("Rozmiar musi być dodatni");
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Granica musi być dodatnia");
         }
     }
 
-    static int[] div(int size, int interval) {
-        int[] randomNumbers = new int[size];
-        for (int i = 0; i < size; i++) {
-            Random r = new Random();
-            do {
-                randomNumbers[i] = r.nextInt(interval + 1);
-            } while (randomNumbers[i] % 2 != 0 || randomNumbers[i] % 3 == 0);
-
+    static void zgaduj() throws Exception {
+        int min = 0;
+        int max = 1000;
+        System.out.println("Pomyśl liczbę od 0 do 1000, a ja ją zgadnę w max. 10 próbach");
+        Scanner scan = new Scanner(System.in);
+        int mojaLiczba = scan.nextInt();
+        if (mojaLiczba < min || mojaLiczba > max) {
+            throw new Exception ("Podaj liczbę między 0 a 1000!");
         }
-        return randomNumbers;
+
+        int i = 0;
+        while (i < 10) {
+            int guess = (max - min) / 2 + min;
+            System.out.println("Zgaduję:" + guess);
+            if (guess < mojaLiczba) {
+                System.out.println("Za mało!");
+                min = guess;
+            } else if (guess > mojaLiczba) {
+                System.out.println("Za dużo!");
+                max = guess;
+            } else if (guess == mojaLiczba) {
+                System.out.println("Wygrałem!");
+                break;
+            } else {
+                System.out.println("Nie oszukuj!");
+                break;
+            }
+        }
+
     }
+
 }
 
-/* W pliku Main3.java umieść metodę o sygnaturze static int[] div(int size, int interval).
-
-Uzupełnij ciało metody tak by zwracała tablicę losowych liczb z zakresu [1 - interval].
-Elementy tablicy mają być jednocześnie podzielne przez 2 i niepodzielne przez 3.
-Ilość elementów w tablicy ma być równa parametrowi size.
-Tablica nie może zawierać pustych elementów. (pamiętaj że domyślna wartość w tablicy dla typu int to 0)
-Przykład dla size = 4 oraz interval = 20
-
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Ile liczb chcesz wylosować?");
-        int number = scan.nextInt();
-        int[] randomNumbers = new int[number];
-        for (int i = 0; i < randomNumbers.length; i++) {
-            Random r = new Random();
-            randomNumbers[i] = r.nextInt(101);
-        }
-
-        Arrays.sort(randomNumbers);
-        return randomNumbers;
+/* Odwróćmy teraz sytuację z warsztatu "Gra w zgadywanie liczb": to użytkownik pomyśli sobie liczbę z
+zakresu 1-1000, a komputer będzie zgadywał i zrobi to maksymalnie w 10 ruchach (pod warunkiem,
+że gracz nie będzie oszukiwał).
+Zadaniem gracza będzie udzielanie odpowiedzi "więcej", "mniej", "tra łeś".
 
  */
